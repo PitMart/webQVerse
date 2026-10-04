@@ -106,6 +106,25 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ─────────────────────────────────────────────
+//  Hero: el título colapsa al observarlo (scroll)
+//  y el indicador de scroll se oculta al bajar
+// ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function () {
+    const title = document.querySelector('.quantum-title');
+    const indicator = document.querySelector('.scroll-indicator');
+    if (!title && !indicator) return;
+
+    function onScroll() {
+        const scrolled = window.scrollY > 40;
+        if (title) title.classList.toggle('collapsed', scrolled);
+        if (indicator) indicator.classList.toggle('hidden', scrolled);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+});
+
+// ─────────────────────────────────────────────
 //  Tablón de Ofertas
 // ─────────────────────────────────────────────
 function toggleTablon() {

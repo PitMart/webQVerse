@@ -333,6 +333,195 @@ img {
     justify-content: center;
 }
 
+/* --- Título "en superposición" ---------------------------------------
+   Dos copias fantasma desplazadas = dos estados. Al observarlo (hover o
+   scroll) --spread pasa de 1 a 0 y el título colapsa a un único estado. */
+
+@property --spread {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 1;
+}
+
+.quantum-title {
+    --spread: 1;
+    position: relative;
+    display: inline-block;
+    cursor: default;
+    transition: --spread 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.quantum-title:hover,
+.quantum-title.collapsed {
+    --spread: 0;
+}
+
+.qt-main {
+    display: inline-block;
+    filter: blur(calc(1.5px * var(--spread)));
+    opacity: calc(1 - 0.45 * var(--spread));
+}
+
+.qt-ghost {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    user-select: none;
+    opacity: calc(0.6 * var(--spread));
+    filter: blur(calc(0.6px * var(--spread)));
+    mix-blend-mode: screen;
+}
+
+.qt-a {
+    color: var(--accent-color);
+    animation: qt-state-a 4.5s ease-in-out infinite alternate;
+}
+
+.qt-b {
+    color: #7fa8ff;
+    animation: qt-state-b 5.5s ease-in-out infinite alternate;
+}
+
+@keyframes qt-state-a {
+    from { translate: calc(-12px * var(--spread)) calc(-3px * var(--spread)); }
+    to   { translate: calc(-7px * var(--spread)) calc(2px * var(--spread)); }
+}
+
+@keyframes qt-state-b {
+    from { translate: calc(11px * var(--spread)) calc(3px * var(--spread)); }
+    to   { translate: calc(6px * var(--spread)) calc(-2px * var(--spread)); }
+}
+
+/* --- Botones del hero: uno relleno, otro solo borde ------------------ */
+
+.hero-buttons .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 190px;
+    padding: 14px 30px;
+    border-radius: 999px;
+    letter-spacing: 0.01em;
+}
+
+.hero-buttons .btn-primary {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #001428;
+    box-shadow: 0 8px 24px rgba(0, 188, 212, 0.35);
+}
+
+.hero-buttons .btn-primary span {
+    transition: transform 0.3s ease;
+}
+
+.hero-buttons .btn-primary:hover {
+    background-color: #2fd3e8;
+    border-color: #2fd3e8;
+    box-shadow: 0 10px 30px rgba(0, 188, 212, 0.5);
+    transform: translateY(-2px);
+}
+
+.hero-buttons .btn-primary:hover span {
+    transform: translateX(4px);
+}
+
+.hero-buttons .btn-outline {
+    background-color: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.55);
+    color: #fff;
+}
+
+.hero-buttons .btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: #fff;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.hero-buttons .btn:focus-visible,
+.scroll-indicator:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+}
+
+/* --- Indicador de scroll --------------------------------------------- */
+
+.scroll-indicator {
+    position: absolute;
+    left: 50%;
+    bottom: 32px;
+    z-index: 2;
+    transform: translateX(-50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: opacity 0.4s ease, color 0.3s ease;
+}
+
+.scroll-indicator:hover {
+    color: #fff;
+}
+
+.scroll-indicator.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.scroll-mouse {
+    width: 24px;
+    height: 38px;
+    border: 1.5px solid currentColor;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    padding-top: 7px;
+}
+
+.scroll-wheel {
+    width: 3px;
+    height: 7px;
+    border-radius: 2px;
+    background-color: currentColor;
+    animation: scroll-wheel 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-wheel {
+    0%   { transform: translateY(0); opacity: 1; }
+    70%  { transform: translateY(10px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 0; }
+}
+
+#eventos {
+    scroll-margin-top: 80px;
+}
+
+@media (max-height: 620px) {
+    .scroll-indicator {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .qt-a,
+    .qt-b,
+    .scroll-wheel {
+        animation: none;
+    }
+
+    .qt-a { translate: calc(-9px * var(--spread)) 0; }
+    .qt-b { translate: calc(9px * var(--spread)) 0; }
+}
+
 
 /* =========================================
    CABECERAS DE PÁGINAS INTERNAS

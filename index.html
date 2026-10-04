@@ -47,21 +47,27 @@
       <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
       <div class="hero-overlay"></div>
       <div class="container hero-content">
-        <h1 class="hero-title fade-in">
-          Quantum Verse
+        <h1 class="hero-title quantum-title fade-in">
+          <span class="qt-main">Quantum Verse</span>
+          <span class="qt-ghost qt-a" aria-hidden="true">Quantum Verse</span>
+          <span class="qt-ghost qt-b" aria-hidden="true">Quantum Verse</span>
         </h1>
         <p class="hero-subtitle fade-in delay-1">
           Asociación de Ingeniería Física - Universidad Carlos III de Madrid
         </p>
         <div class="hero-buttons fade-in delay-2">
-          <a href="proyectos.html" class="btn btn-primary">Ver Proyectos</a>
+          <a href="proyectos.html" class="btn btn-primary">Ver Proyectos <span aria-hidden="true">&rarr;</span></a>
           <a href="equipo.html" class="btn btn-outline">Únete a nosotros</a>
         </div>
       </div>
+      <a href="#eventos" class="scroll-indicator" aria-label="Bajar a próximos eventos">
+        <span class="scroll-mouse" aria-hidden="true"><span class="scroll-wheel"></span></span>
+        <span class="scroll-label">Desliza</span>
+      </a>
     </header>
 
 <!-- Eventos Teaser -->
-<section class="section">
+<section class="section" id="eventos">
   <div class="container">
     <div class="section-header">
       <h2>Próximos Eventos</h2>
