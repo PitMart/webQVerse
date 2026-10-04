@@ -10,8 +10,8 @@
     const ctx = canvas.getContext('2d');
 
     const CELL = 6;            // px CSS por celda de la rejilla de cálculo
-    const WAVELENGTH = 42;     // longitud de onda en px CSS
-    const OMEGA = 2.2;         // frecuencia angular (rad/s)
+    const WAVELENGTH = 80;     // longitud de onda en px CSS (franjas anchas y tranquilas)
+    const OMEGA = 0.8;         // frecuencia angular (rad/s), lenta para no marear
     const K = (2 * Math.PI * CELL) / WAVELENGTH;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -68,7 +68,7 @@
                           + Math.cos(K * r2 - wt) / Math.sqrt(1 + r2 / soft);
                 const v = Math.min(1, (psi * psi) / 4);
                 // fondo → azul primario → acento (contenido para no restar legibilidad)
-                const a = Math.min(1, v * 2), b = Math.max(0, v - 0.5) * 1.1;
+                const a = Math.min(1, v * 1.4) * 0.75, b = Math.max(0, v - 0.6) * 0.6;
                 data[i]     = BG[0] + (MID[0] - BG[0]) * a + (PEAK[0] - MID[0]) * b;
                 data[i + 1] = BG[1] + (MID[1] - BG[1]) * a + (PEAK[1] - MID[1]) * b;
                 data[i + 2] = BG[2] + (MID[2] - BG[2]) * a + (PEAK[2] - MID[2]) * b;
@@ -85,8 +85,8 @@
     let running = false, visible = true, start = performance.now();
     function frame(now) {
         if (!running) return;
-        s2.x += (target.x - s2.x) * 0.08;
-        s2.y += (target.y - s2.y) * 0.08;
+        s2.x += (target.x - s2.x) * 0.03;
+        s2.y += (target.y - s2.y) * 0.03;
         render((now - start) / 1000);
         requestAnimationFrame(frame);
     }
