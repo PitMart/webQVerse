@@ -125,6 +125,44 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ─────────────────────────────────────────────
+//  Contadores animados (Quiénes somos)
+//  El HTML ya trae el número final: sin JS se ve igual.
+// ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function () {
+    const counters = document.querySelectorAll('.counter[data-target]');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!counters.length || reduceMotion || !('IntersectionObserver' in window)) return;
+
+    function animate(el) {
+        const target = parseInt(el.dataset.target, 10);
+        const duration = 1400;
+        const start = performance.now();
+
+        function step(now) {
+            const t = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(1 - t, 3);
+            el.textContent = Math.round(target * eased);
+            if (t < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                animate(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.6 });
+
+    counters.forEach(function (el) {
+        el.textContent = '0';
+        observer.observe(el);
+    });
+});
+
+// ─────────────────────────────────────────────
 //  Tablón de Ofertas
 // ─────────────────────────────────────────────
 function toggleTablon() {

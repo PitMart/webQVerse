@@ -60,52 +60,166 @@
           <a href="equipo.html" class="btn btn-outline">Únete a nosotros</a>
         </div>
       </div>
-      <a href="#eventos" class="scroll-indicator" aria-label="Bajar a próximos eventos">
+      <a href="#quienes-somos" class="scroll-indicator" aria-label="Bajar a quiénes somos">
         <span class="scroll-mouse" aria-hidden="true"><span class="scroll-wheel"></span></span>
         <span class="scroll-label">Desliza</span>
       </a>
     </header>
 
-<!-- Eventos Teaser -->
-<section class="section" id="eventos">
-  <div class="container">
-    <div class="section-header">
-      <h2>Próximos Eventos</h2>
-      <p>No te pierdas nuestras actividades</p>
-    </div>
-<!----
-    <div class="events-list">
-      <div class="event-item">
-        <div class="date-badge">
-          <span class="day">dia</span>
-          <span class="month">mes</span>
-        </div>
-        <div class="event-details">
-          <h3>Evento</h3>
+    <!-- Quiénes somos -->
+    <section class="section about-section" id="quienes-somos">
+      <div class="container about-grid">
+        <div class="about-text">
+          <span class="eyebrow">Quiénes somos</span>
+          <h2>Estudiantes que llevan la física cuántica del aula al laboratorio</h2>
           <p>
-            descripción breve del evento, charla o actividad que se va a realizar.
+            Quantum Verse es la asociación de estudiantes de Ingeniería Física de la
+            Universidad Carlos III de Madrid. Nos une el interés por la física cuántica
+            y las tecnologías que nacen de ella: computación cuántica, instrumentación
+            y simulación.
           </p>
-          <a href="eventos.html" class="read-more">
-            Más información &rarr;
-          </a>
+          <p>
+            Formamos a otros estudiantes, construimos proyectos propios, competimos en
+            hackathons y retos de innovación, y organizamos charlas con investigadores
+            y empresas del sector.
+          </p>
+        </div>
+        <dl class="stats">
+          <div class="stat">
+            <dt>Miembros</dt>
+            <dd><span class="counter" data-target="11">11</span></dd>
+          </div>
+          <div class="stat">
+            <dt>Proyectos</dt>
+            <dd><span class="counter" data-target="3">3</span></dd>
+          </div>
+          <div class="stat">
+            <dt>Eventos</dt>
+            <dd><span class="counter" data-target="5">5</span></dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Proyectos destacados -->
+    <section class="section bg-light" id="proyectos-destacados">
+      <div class="container">
+        <div class="section-header">
+          <h2>Proyectos destacados</h2>
+          <p>Una muestra de lo que construimos</p>
+        </div>
+        <div class="featured-grid">
+          <article class="featured-card">
+            <a href="articulo.html?id=quantumschool" class="featured-link">
+              <div class="featured-media">
+                <img src="img/proyectos/quantum/IBMQChip.webp" alt="Procesador cuántico de IBM" loading="lazy" />
+                <span class="status status-active">Activo</span>
+              </div>
+              <div class="featured-body">
+                <span class="area">Computación cuántica</span>
+                <h3>Quantum Computing School</h3>
+                <p>Formación en computación cuántica con Qiskit siguiendo los cursos de IBM y Quantum Rings.</p>
+                <span class="read-more">Ver proyecto &rarr;</span>
+              </div>
+            </a>
+          </article>
+          <article class="featured-card">
+            <a href="articulo.html?id=ilunion-26" class="featured-link">
+              <div class="featured-media">
+                <img src="img/eventos/ilunion_26/simulacion-planta.webp" alt="Simulación de la planta de ILUNION TextilCare" loading="lazy" />
+                <span class="status status-award">1.er premio 2026</span>
+              </div>
+              <div class="featured-body">
+                <span class="area">Simulación y optimización</span>
+                <h3>Simulación de planta para ILUNION</h3>
+                <p>Simulamos la planta de ILUNION TextilCare para automatizar y optimizar su proceso. Ganó el ILUNION University Game 2026.</p>
+                <span class="read-more">Ver proyecto &rarr;</span>
+              </div>
+            </a>
+          </article>
+          <article class="featured-card">
+            <a href="articulo.html?id=niebla" class="featured-link">
+              <div class="featured-media">
+                <img src="img/proyectos/niebla/pesas.webp" alt="Cámara de niebla construida por la asociación" loading="lazy" />
+                <span class="status status-done">Finalizado 2025</span>
+              </div>
+              <div class="featured-body">
+                <span class="area">Física de partículas</span>
+                <h3>Cámara de niebla</h3>
+                <p>Construimos una cámara de niebla para ver en tiempo real las trazas de rayos cósmicos y partículas de alta energía.</p>
+                <span class="read-more">Ver proyecto &rarr;</span>
+              </div>
+            </a>
+          </article>
+        </div>
+        <div class="section-cta">
+          <a href="proyectos.html" class="btn btn-outline-dark">Ver todos los proyectos</a>
         </div>
       </div>
-    </div>
-  -->
-    <div style="text-align: center; margin-top: 30px">
-      <a
-        href="eventos.html"
-        class="btn btn-outline"
-        style="
-          border-color: var(--primary-color);
-          color: var(--primary-color);
-        "
-      >
-        Ver calendario completo
-      </a>
-    </div>
-  </div>
-</section>
+    </section>
+
+    <!-- Próximos eventos -->
+    <section class="section" id="eventos">
+      <div class="container">
+        <div class="section-header">
+          <h2>Próximos eventos</h2>
+          <p>No te pierdas nuestras actividades</p>
+        </div>
+        <!--
+          Cuando haya un evento confirmado, sustituye el bloque .events-empty
+          por una tarjeta como esta:
+
+          <div class="events-list">
+            <div class="event-item">
+              <div class="date-badge">
+                <span class="day">29</span>
+                <span class="month">MAY</span>
+              </div>
+              <div class="event-details">
+                <h3>Título del evento</h3>
+                <p>Descripción breve de la charla o actividad.</p>
+                <a href="eventos.html" class="read-more">Más información &rarr;</a>
+              </div>
+            </div>
+          </div>
+        -->
+        <div class="events-empty">
+          <p class="events-empty-title">Pronto anunciaremos nuevas actividades</p>
+          <p>Mientras tanto, puedes ver lo que hemos hecho o seguirnos en Instagram para enterarte antes que nadie.</p>
+          <div class="events-empty-actions">
+            <a href="eventos.html" class="btn btn-outline-dark">Ver eventos pasados</a>
+            <a href="https://www.instagram.com/qverse_uc3m/" class="read-more" target="_blank" rel="noopener">Seguir en Instagram &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Colaboradores -->
+    <section class="partners-strip" aria-labelledby="partners-title">
+      <div class="container">
+        <p class="partners-title" id="partners-title">Colaboran con nosotros</p>
+      </div>
+      <div class="marquee">
+        <div class="marquee-track">
+          <ul class="marquee-group">
+            <li><img src="img/colaboraciones/qc_strip.webp" alt="QCentroid" class="partner-logo" /></li>
+            <li><img src="img/colaboraciones/qm_strip.webp" alt="Quantum Mads" class="partner-logo partner-logo-tall" /></li>
+            <li><img src="img/colaboraciones/qr_strip.webp" alt="Quantum Rings" class="partner-logo" /></li>
+            <li aria-hidden="true"><img src="img/colaboraciones/qc_strip.webp" alt="" class="partner-logo" /></li>
+            <li aria-hidden="true"><img src="img/colaboraciones/qm_strip.webp" alt="" class="partner-logo partner-logo-tall" /></li>
+            <li aria-hidden="true"><img src="img/colaboraciones/qr_strip.webp" alt="" class="partner-logo" /></li>
+          </ul>
+          <ul class="marquee-group" aria-hidden="true">
+            <li><img src="img/colaboraciones/qc_strip.webp" alt="" class="partner-logo" /></li>
+            <li><img src="img/colaboraciones/qm_strip.webp" alt="" class="partner-logo partner-logo-tall" /></li>
+            <li><img src="img/colaboraciones/qr_strip.webp" alt="" class="partner-logo" /></li>
+            <li><img src="img/colaboraciones/qc_strip.webp" alt="" class="partner-logo" /></li>
+            <li><img src="img/colaboraciones/qm_strip.webp" alt="" class="partner-logo partner-logo-tall" /></li>
+            <li><img src="img/colaboraciones/qr_strip.webp" alt="" class="partner-logo" /></li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
     <!-- Footer -->
      <footer id="contacto">
