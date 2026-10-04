@@ -259,11 +259,11 @@ img {
 
 .hero-section {
     height: 100vh;
-    background-image: url('img/eventos/ilunion_25/Ilunion-presentacion.webp');
-    background-size: cover;
-    background-position: center;
+    /* Fallback si no hay JS; el canvas de interferencia se pinta encima */
+    background: linear-gradient(135deg, #001428 0%, var(--primary-color) 100%);
 
     position: relative;
+    overflow: hidden;
     display: flex;
     align-items: center;
 
@@ -280,13 +280,31 @@ img {
     width: 100%;
     height: 100%;
 
-    background: linear-gradient(
-        135deg,
-        rgba(0, 51, 102, 0.9) 0%,
-        rgba(0, 0, 0, 0.7) 100%
-    );
+    /* Viñeta: oscurece el centro (texto) y los bordes sin tapar las franjas */
+    background:
+        radial-gradient(
+            ellipse 45% 35% at 50% 50%,
+            rgba(0, 20, 40, 0.55) 0%,
+            rgba(0, 20, 40, 0) 100%
+        ),
+        radial-gradient(
+            ellipse at center,
+            rgba(0, 0, 0, 0) 55%,
+            rgba(0, 10, 20, 0.6) 100%
+        );
 
     z-index: 1;
+    pointer-events: none;
+}
+
+.hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 0;
+    pointer-events: none;
 }
 
 .hero-content {
