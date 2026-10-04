@@ -358,8 +358,8 @@ img {
 
 .qt-main {
     display: inline-block;
-    filter: blur(calc(1.5px * var(--spread)));
-    opacity: calc(1 - 0.45 * var(--spread));
+    position: relative;
+    z-index: 1;
 }
 
 .qt-ghost {
@@ -367,9 +367,7 @@ img {
     inset: 0;
     pointer-events: none;
     user-select: none;
-    opacity: calc(0.6 * var(--spread));
-    filter: blur(calc(0.6px * var(--spread)));
-    mix-blend-mode: screen;
+    opacity: calc(0.45 * var(--spread));
 }
 
 .qt-a {
@@ -383,13 +381,13 @@ img {
 }
 
 @keyframes qt-state-a {
-    from { translate: calc(-12px * var(--spread)) calc(-3px * var(--spread)); }
-    to   { translate: calc(-7px * var(--spread)) calc(2px * var(--spread)); }
+    from { translate: calc(-4px * var(--spread)) calc(-1px * var(--spread)); }
+    to   { translate: calc(-2px * var(--spread)) calc(1px * var(--spread)); }
 }
 
 @keyframes qt-state-b {
-    from { translate: calc(11px * var(--spread)) calc(3px * var(--spread)); }
-    to   { translate: calc(6px * var(--spread)) calc(-2px * var(--spread)); }
+    from { translate: calc(4px * var(--spread)) calc(1px * var(--spread)); }
+    to   { translate: calc(2px * var(--spread)) calc(-1px * var(--spread)); }
 }
 
 /* --- Botones del hero: uno relleno, otro solo borde ------------------ */
@@ -518,8 +516,8 @@ img {
         animation: none;
     }
 
-    .qt-a { translate: calc(-9px * var(--spread)) 0; }
-    .qt-b { translate: calc(9px * var(--spread)) 0; }
+    .qt-a { translate: calc(-3px * var(--spread)) 0; }
+    .qt-b { translate: calc(3px * var(--spread)) 0; }
 }
 
 
