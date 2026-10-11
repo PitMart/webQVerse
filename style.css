@@ -1186,6 +1186,206 @@ img {
 
 
 /* =========================================
+   CARRERAS: TABLÓN DE OFERTAS
+   ========================================= */
+
+.offers-intro {
+    max-width: 68ch;
+    margin: -16px 0 24px;
+    color: #4a5563;
+}
+
+.offers-count {
+    color: #124e94;
+    font-weight: 600;
+}
+
+.offers-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.chip {
+    padding: 7px 16px;
+    border: 1px solid #c9d7ea;
+    border-radius: 999px;
+    background-color: #fff;
+    color: #39577f;
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.chip:hover {
+    border-color: #124e94;
+    color: #124e94;
+}
+
+.chip.is-active {
+    background-color: #124e94;
+    border-color: #124e94;
+    color: #fff;
+}
+
+.chip:focus-visible {
+    outline: 2px solid #124e94;
+    outline-offset: 2px;
+}
+
+.offers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.offer-link {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 20px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.offer-link:hover {
+    border-color: #b7d0ee;
+    box-shadow: 0 10px 24px rgba(18, 78, 148, 0.1);
+    transform: translateY(-2px);
+}
+
+.offer-link:focus-visible {
+    outline: 2px solid #124e94;
+    outline-offset: 2px;
+}
+
+.offer-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 64px;
+    border-radius: 10px;
+    background-color: #eef3fa;
+    color: #124e94;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.offer-day {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.offer-date--month .offer-day {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.offer-month {
+    margin-top: 4px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.offer-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.offer-org {
+    color: #6189b7;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.offer-title {
+    color: #124e94;
+    font-size: 1.08rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.offer-meta {
+    color: var(--secondary-color);
+    font-size: 0.88rem;
+}
+
+.offer-type {
+    color: #39577f;
+    font-weight: 600;
+}
+
+.offer-status {
+    padding: 5px 12px;
+    border-radius: 999px;
+    background-color: #eef3fa;
+    color: #39577f;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.offer[data-state="open"] .offer-status     { background-color: #e6f4ea; color: #1e6b34; }
+.offer[data-state="soon"] .offer-status     { background-color: #fff1d6; color: #8a4b00; }
+.offer[data-state="upcoming"] .offer-status { background-color: #e3ecf8; color: #124e94; }
+.offer[data-state="closed"] .offer-status   { background-color: #f1f2f4; color: #6b7280; }
+
+/* Las cerradas se quedan visibles como referencia, pero apagadas */
+.offer[data-state="closed"] .offer-link {
+    background-color: #fafbfc;
+}
+
+.offer[data-state="closed"] .offer-date,
+.offer[data-state="closed"] .offer-main {
+    opacity: 0.6;
+}
+
+.offer[data-state="soon"] .offer-date {
+    background-color: #fff1d6;
+    color: #8a4b00;
+}
+
+.sectors-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+@media (max-width: 768px) {
+    .offer-link {
+        grid-template-columns: 56px minmax(0, 1fr);
+        gap: 14px;
+        padding: 14px 16px;
+    }
+
+    .offer-date {
+        min-height: 56px;
+    }
+
+    .offer-day {
+        font-size: 1.25rem;
+    }
+
+    .offer-status {
+        grid-column: 2;
+        justify-self: start;
+    }
+}
+
+
+/* =========================================
    TÍTULOS DE SECCIÓN
    ========================================= */
 
@@ -1691,10 +1891,6 @@ img {
 /* =========================================
    ELEMENTOS EXTRA / UTILIDADES
    ========================================= */
-
-#extra-items {
-    width: 100%;
-}
 
 
 /* =========================================

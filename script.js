@@ -163,17 +163,99 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ─────────────────────────────────────────────
-//  Tablón de Ofertas
+//  Tablón de ofertas (Carreras)
+//  Calcula el estado de cada convocatoria según su plazo, ordena las
+//  abiertas primero y permite filtrar por tipo. Sin JS se ve la lista
+//  completa con el plazo escrito.
 // ─────────────────────────────────────────────
-function toggleTablon() {
-    const extra = document.getElementById('extra-items');
-    const btn = document.getElementById('btn-tablon');
+document.addEventListener('DOMContentLoaded', function () {
+    const list = document.querySelector('.offers');
+    if (!list) return;
 
-    if (extra.style.display === "none") {
-        extra.style.display = "block";
-        btn.innerText = "Ver menos";
-    } else {
-        extra.style.display = "none";
-        btn.innerText = "Ver tablón completo";
+    const items = Array.from(list.querySelectorAll('.offer'));
+    const filters = document.querySelector('.offers-filters');
+    const moreBtn = document.querySelector('.offers-more');
+    const countEl = document.querySelector('.offers-count');
+    const VISIBLE = 5;
+    const DAY = 86400000;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Orden de los estados en el tablón
+    const RANK = { soon: 0, open: 1, upcoming: 2, check: 3, closed: 4 };
+
+    items.forEach(function (item) {
+        const statusEl = item.querySelector('.offer-status');
+        let status = 'check', label = 'Consultar', sortKey = 0;
+
+        if (item.dataset.deadline) {
+            const end = new Date(item.dataset.deadline + 'T00:00:00');
+            const days = Math.round((end - today) / DAY);
+            sortKey = end.getTime();
+            if (days < 0) {
+                status = 'closed'; label = 'Cerrada';
+                sortKey = -sortKey;               // las cerradas más recientes primero
+            } else if (days <= 21) {
+                status = 'soon';
+                label = days === 0 ? 'Cierra hoy' : days === 1 ? 'Cierra mañana' : 'Cierra en ' + days + ' días';
+            } else {
+                status = 'open'; label = 'Abierta';
+            }
+        } else if (item.dataset.opens) {
+            const start = new Date(item.dataset.opens + 'T00:00:00');
+            sortKey = start.getTime();
+            if (start > today) { status = 'upcoming'; label = 'Próximamente'; }
+        } else if (item.dataset.status === 'open') {
+            status = 'open'; label = 'Abierta';
+            sortKey = Infinity;                   // abiertas sin plazo, tras las que tienen fecha
+        }
+
+        item.dataset.state = status;
+        item.dataset.sort = RANK[status] * 1e15 + (isFinite(sortKey) ? sortKey / 1e3 : 9e11);
+        statusEl.title = statusEl.textContent.trim();   // conserva el plazo original al pasar el ratón
+        statusEl.textContent = label;
+    });
+
+    items.sort(function (a, b) { return a.dataset.sort - b.dataset.sort; });
+    items.forEach(function (item) { list.appendChild(item); });
+
+    const openCount = items.filter(function (i) { return i.dataset.state === 'open' || i.dataset.state === 'soon'; }).length;
+    if (countEl) {
+        countEl.textContent = openCount === 1
+            ? ' · 1 convocatoria abierta ahora'
+            : ' · ' + openCount + ' convocatorias abiertas ahora';
     }
-}
+
+    let filter = 'todas';
+    let expanded = false;
+
+    function render() {
+        const matching = items.filter(function (i) { return filter === 'todas' || i.dataset.type === filter; });
+        items.forEach(function (i) { i.hidden = true; });
+        matching.forEach(function (i, idx) { i.hidden = !expanded && idx >= VISIBLE; });
+        const hiddenCount = matching.length - VISIBLE;
+        moreBtn.hidden = hiddenCount <= 0;
+        moreBtn.textContent = expanded ? 'Ver menos' : 'Ver todas las convocatorias (' + matching.length + ')';
+    }
+
+    filters.hidden = false;
+    filters.addEventListener('click', function (e) {
+        const btn = e.target.closest('[data-filter]');
+        if (!btn) return;
+        filter = btn.dataset.filter;
+        expanded = false;
+        filters.querySelectorAll('[data-filter]').forEach(function (b) {
+            const active = b === btn;
+            b.classList.toggle('is-active', active);
+            b.setAttribute('aria-pressed', active);
+        });
+        render();
+    });
+
+    moreBtn.addEventListener('click', function () {
+        expanded = !expanded;
+        render();
+    });
+
+    render();
+});
