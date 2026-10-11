@@ -1386,6 +1386,278 @@ img {
 
 
 /* =========================================
+   PÁGINA DE ARTÍCULO
+   ========================================= */
+
+.article-hero {
+    padding: 140px 0 64px;
+    text-align: left;
+}
+
+/* Mismo ancho que .article-layout con índice (240 + 56 + 720) más el padding */
+.page-header--texture .article-hero-inner {
+    max-width: 1056px;
+}
+
+.article-hero h1 {
+    max-width: 22ch;
+    margin-bottom: 18px;
+    font-size: clamp(1.9rem, 4.2vw, 2.9rem);
+    line-height: 1.15;
+}
+
+.breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    margin-bottom: 28px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+}
+
+.breadcrumbs a {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.breadcrumbs a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.breadcrumbs .current-page {
+    max-width: 40ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+}
+
+.article-meta-sep {
+    opacity: 0.6;
+}
+
+/* Columna de lectura centrada; con índice, el índice ocupa el lateral izquierdo */
+.article-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 720px);
+    justify-content: center;
+    gap: 56px;
+    padding-top: 56px;
+    padding-bottom: 72px;
+}
+
+.article-layout.has-toc {
+    grid-template-columns: 240px minmax(0, 720px);
+}
+
+.article-toc {
+    position: sticky;
+    top: 110px;
+    align-self: start;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+}
+
+.toc-title {
+    margin-bottom: 12px;
+    color: var(--secondary-color);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.toc-list {
+    list-style: none;
+    border-left: 2px solid #e1e8f2;
+}
+
+.toc-list a {
+    display: block;
+    margin-left: -2px;
+    padding: 7px 0 7px 16px;
+    border-left: 2px solid transparent;
+    color: #4a5563;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.toc-list a:hover {
+    color: #124e94;
+}
+
+.toc-list a.is-active {
+    border-left-color: #124e94;
+    color: #124e94;
+    font-weight: 600;
+}
+
+/* Tipografía del cuerpo. Los <br> de los artículos solo separaban bloques:
+   el espaciado lo controlan ahora los márgenes */
+.article-content {
+    color: #27303d;
+    font-size: 1.075rem;
+    line-height: 1.78;
+}
+
+.article-content br {
+    display: none;
+}
+
+.article-content p {
+    margin: 0 0 1.25em;
+}
+
+.article-content h2 {
+    margin: 2.2em 0 0.7em;
+    color: #124e94;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    text-wrap: balance;
+    scroll-margin-top: 100px;
+}
+
+.article-content > h2:first-child,
+.article-lead + h2 {
+    margin-top: 0;
+}
+
+.article-content a {
+    color: #124e94;
+    text-decoration: underline;
+    text-decoration-color: rgba(18, 78, 148, 0.35);
+    text-underline-offset: 3px;
+}
+
+.article-content a:hover {
+    text-decoration-color: currentColor;
+}
+
+.article-content strong {
+    color: #1b2533;
+}
+
+.article-content ul,
+.article-content ol {
+    margin: 0 0 1.25em;
+    padding-left: 1.4em;
+    list-style: disc;
+}
+
+.article-content li {
+    margin-bottom: 0.45em;
+}
+
+.article-content blockquote {
+    margin: 1.8em 0;
+    padding: 4px 0 4px 22px;
+    border-left: 3px solid #6189b7;
+    color: #39577f;
+    font-size: 1.15rem;
+    font-style: italic;
+}
+
+.article-lead {
+    margin-bottom: 2.2em !important;
+    padding-left: 20px;
+    border-left: 3px solid #6189b7;
+    color: #124e94;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.article-content img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+.article-content > img,
+.article-content > div:has(> img) {
+    margin: 2em 0;
+}
+
+.article-content .video-container {
+    margin: 2em 0;
+}
+
+/* En pantallas anchas, imágenes y vídeos sobresalen un poco de la columna */
+@media (min-width: 1100px) {
+    .article-content > img,
+    .article-content > div:has(> img),
+    .article-content > .video-container {
+        width: calc(100% + 96px);
+        max-width: none;
+        margin-left: -48px;
+        margin-right: -48px;
+    }
+}
+
+.article-footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+}
+
+.back-link {
+    color: #124e94;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.related-placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(120% 60% at 20% 15%, rgba(183, 208, 238, 0.35), transparent 60%),
+        radial-gradient(90% 50% at 85% 90%, rgba(97, 137, 183, 0.5), transparent 65%),
+        linear-gradient(160deg, #255c91 0%, #124e94 50%, #0c3e76 100%);
+}
+
+@media (max-width: 1000px) {
+    .article-layout.has-toc {
+        grid-template-columns: minmax(0, 720px);
+    }
+
+    .article-toc {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .article-hero {
+        padding: 112px 0 44px;
+    }
+
+    .article-layout {
+        padding-top: 36px;
+        padding-bottom: 48px;
+    }
+
+    .article-content {
+        font-size: 1.02rem;
+    }
+
+    .article-lead {
+        font-size: 1.12rem;
+    }
+}
+
+
+/* =========================================
    TÍTULOS DE SECCIÓN
    ========================================= */
 

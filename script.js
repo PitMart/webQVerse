@@ -54,56 +54,159 @@ document.addEventListener('DOMContentLoaded', function () {
     // Cargar artículo dinámico
     const params = new URLSearchParams(window.location.search);
     const articleId = params.get('id');
+    const isArticlePage = !!document.getElementById('article-body');
 
-    if (articleId && articles[articleId]) {
-        const article = articles[articleId];
-
-        // Elementos del DOM
-        const titleEl = document.getElementById('article-title');
-        const categoryEl = document.getElementById('article-category');
-        const authorEl = document.getElementById('article-author');
-        const dateEl = document.getElementById('article-date');
-        const bodyEl = document.getElementById('article-body');
-        const breadcrumbTitle = document.getElementById('breadcrumb-title');
-        const breadcrumbSection = document.getElementById('breadcrumb-section');
-
-        // Actualizar contenido
-        if (titleEl) titleEl.textContent = article.title;
-        if (categoryEl) categoryEl.textContent = article.category;
-        if (authorEl) authorEl.textContent = article.author;
-        if (dateEl) dateEl.textContent = article.date;
-        if (breadcrumbTitle) breadcrumbTitle.textContent = article.title;
-        if (breadcrumbSection) breadcrumbSection.textContent = article.category;
-
-        let contentHtml = '';
-        if (article.lead) {
-            contentHtml += `<p class="lead" style="font-size: 1.4rem; margin-bottom: 20px;">${article.lead}</p>`;
-        }
-        contentHtml += article.body;
-
-        if (bodyEl) {
-            bodyEl.innerHTML = contentHtml;
-            bodyEl.style.textAlign = 'justify';
-
-            if (articleId === 'niebla') {
-                bodyEl.classList.add('article-niebla');
-            }
-
-            if (window.instgrm) {
-                window.instgrm.Embeds.process();
-            }
-        }
-
-        document.title = `${article.title} - QVerse`;
-
-    } else if (window.location.pathname.includes('articulo.html')) {
+    if (isArticlePage && articleId && articles[articleId]) {
+        renderArticle(articleId, articles[articleId]);
+    } else if (isArticlePage) {
         const bodyEl = document.getElementById('article-body');
         const titleEl = document.getElementById('article-title');
 
         if (titleEl) titleEl.textContent = 'Artículo no encontrado';
-        if (bodyEl) bodyEl.innerHTML = '<p>Lo sentimos, el artículo que buscas no existe o ha sido movido.</p><a href="index.html" class="btn btn-primary" style="margin-top:20px; display:inline-block;">Volver al inicio</a>';
+        document.querySelector('.article-meta')?.setAttribute('hidden', '');
+        if (bodyEl) bodyEl.innerHTML = '<p>Lo sentimos, el artículo que buscas no existe o ha sido movido.</p><p><a href="index.html" class="btn btn-primary">Volver al inicio</a></p>';
     }
 });
+
+// ─────────────────────────────────────────────
+//  Página de artículo
+// ─────────────────────────────────────────────
+
+// Sección de la web a la que pertenece cada colección de artículos
+const ARTICLE_SECTIONS = [
+    { list: typeof proyectosArticles !== 'undefined' ? proyectosArticles : {}, label: 'Proyectos', href: 'proyectos.html' },
+    { list: typeof carrerasArticles !== 'undefined' ? carrerasArticles : {}, label: 'Carreras', href: 'carreras.html' },
+    { list: typeof eventosArticles !== 'undefined' ? eventosArticles : {}, label: 'Eventos', href: 'eventos.html' },
+    { list: typeof alumniArticles !== 'undefined' ? alumniArticles : {}, label: 'Eventos', href: 'eventos.html' },
+];
+
+function sectionOf(id) {
+    return ARTICLE_SECTIONS.find(function (sec) { return Object.prototype.hasOwnProperty.call(sec.list, id); });
+}
+
+function slugify(text) {
+    return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+}
+
+function renderArticle(id, article) {
+    const $ = function (sel) { return document.getElementById(sel); };
+    const section = sectionOf(id);
+
+    $('article-title').textContent = article.title;
+    $('article-category').textContent = article.category;
+    $('article-author').textContent = article.author || 'Quantum Verse';
+    $('article-date').textContent = article.date || '';
+    $('breadcrumb-title').textContent = article.title;
+    document.title = article.title + ' - QVerse';
+
+    if (section) {
+        const crumb = $('breadcrumb-section');
+        crumb.textContent = section.label;
+        crumb.href = section.href;
+        const back = $('article-back');
+        back.textContent = '\u2190 Volver a ' + section.label;
+        back.href = section.href;
+        $('article-footer').hidden = false;
+
+        // El menú marca la sección del artículo
+        document.querySelectorAll('.nav-link').forEach(function (link) {
+            const active = link.getAttribute('href') === section.href;
+            link.classList.toggle('active', active);
+            if (active) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
+        });
+    }
+
+    // Cuerpo: entradilla + contenido
+    const bodyEl = $('article-body');
+    bodyEl.innerHTML = (article.lead ? '<p class="article-lead">' + article.lead + '</p>' : '') + article.body;
+    if (id === 'niebla') bodyEl.classList.add('article-niebla');
+    if (window.instgrm) window.instgrm.Embeds.process();
+
+    // Tiempo de lectura (unas 200 palabras por minuto)
+    const words = bodyEl.textContent.trim().split(/\s+/).length;
+    const minutes = Math.max(1, Math.round(words / 200));
+    $('article-reading').textContent = minutes + ' min de lectura';
+    $('article-reading').hidden = false;
+    $('article-reading-sep').hidden = false;
+
+    buildToc(bodyEl);
+    buildRelated(id, section);
+}
+
+// Índice lateral a partir de los apartados (h2) del artículo
+function buildToc(bodyEl) {
+    const headings = Array.from(bodyEl.querySelectorAll('h2'));
+    if (headings.length < 3) return;
+
+    const list = document.getElementById('article-toc-list');
+    const links = headings.map(function (h, i) {
+        if (!h.id) h.id = slugify(h.textContent) || 'apartado-' + (i + 1);
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent.trim();
+        li.appendChild(a);
+        list.appendChild(li);
+        return a;
+    });
+
+    document.getElementById('article-toc').hidden = false;
+    document.getElementById('article-layout').classList.add('has-toc');
+
+    // Resalta el apartado que se está leyendo
+    if (!('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            const idx = headings.indexOf(entry.target);
+            links.forEach(function (a, i) { a.classList.toggle('is-active', i === idx); });
+        });
+    }, { rootMargin: '-90px 0px -70% 0px' });
+    headings.forEach(function (h) { observer.observe(h); });
+}
+
+// "Sigue leyendo": otros artículos de la misma sección
+function buildRelated(id, section) {
+    if (!section) return;
+    // Reúne todas las colecciones de la misma sección (Eventos incluye alumni)
+    const pool = {};
+    ARTICLE_SECTIONS.forEach(function (sec) {
+        if (sec.label === section.label) Object.assign(pool, sec.list);
+    });
+    const others = Object.keys(pool).filter(function (key) { return key !== id && !pool[key].oculto; }).slice(0, 3);
+    if (!others.length) return;
+
+    const grid = document.getElementById('article-related-grid');
+    others.forEach(function (key) {
+        const item = pool[key];
+        const imgMatch = /<img[^>]+src="([^"]+)"/.exec(item.body || '');
+        const media = imgMatch
+            ? '<img src="' + imgMatch[1] + '" alt="" loading="lazy" />'
+            : '<span class="related-placeholder" aria-hidden="true"></span>';
+        const card = document.createElement('article');
+        card.className = 'featured-card';
+        card.innerHTML =
+            '<a href="articulo.html?id=' + encodeURIComponent(key) + '" class="featured-link">' +
+                '<div class="featured-media">' + media + '</div>' +
+                '<div class="featured-body">' +
+                    '<span class="area"></span><h3></h3>' +
+                    '<span class="read-more">Leer artículo &rarr;</span>' +
+                '</div>' +
+            '</a>';
+        card.querySelector('.area').textContent = item.category || section.label;
+        card.querySelector('h3').textContent = item.title;
+        // Si la miniatura no carga, se usa el fondo de marca
+        const img = card.querySelector('.featured-media img');
+        if (img) img.addEventListener('error', function () {
+            img.replaceWith(Object.assign(document.createElement('span'), { className: 'related-placeholder' }));
+        });
+        grid.appendChild(card);
+    });
+
+    document.getElementById('article-related-sub').textContent = 'Más artículos de ' + section.label.toLowerCase();
+    document.getElementById('article-related').hidden = false;
+}
 
 // ─────────────────────────────────────────────
 //  Hero: el título colapsa al observarlo (scroll)
