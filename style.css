@@ -260,7 +260,7 @@ img {
 .hero-section {
     height: 100vh;
     /* Fallback si no hay JS; el canvas de interferencia se pinta encima */
-    background: linear-gradient(135deg, #001428 0%, var(--primary-color) 100%);
+    background: linear-gradient(135deg, #0c3e76 0%, #124e94 55%, #39577f 100%);
 
     position: relative;
     overflow: hidden;
@@ -280,17 +280,17 @@ img {
     width: 100%;
     height: 100%;
 
-    /* Viñeta: oscurece el centro (texto) y los bordes sin tapar las franjas */
+    /* Viñeta suave: asienta el texto blanco sin tapar la textura */
     background:
         radial-gradient(
-            ellipse 45% 35% at 50% 50%,
-            rgba(0, 20, 40, 0.55) 0%,
-            rgba(0, 20, 40, 0) 100%
+            ellipse 50% 38% at 50% 50%,
+            rgba(8, 40, 82, 0.5) 0%,
+            rgba(8, 40, 82, 0) 100%
         ),
         radial-gradient(
             ellipse at center,
-            rgba(0, 0, 0, 0) 55%,
-            rgba(0, 10, 20, 0.6) 100%
+            rgba(0, 0, 0, 0) 60%,
+            rgba(6, 30, 64, 0.45) 100%
         );
 
     z-index: 1;
