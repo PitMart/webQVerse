@@ -43,8 +43,11 @@
 
     function render(t) {
         const data = img.data;
-        const s = 7.5 / gh;               // escala: varios pliegues por pantalla
-        const R2 = (gh * 0.2) ** 2;       // radio de influencia del cursor
+        // Escala: varios pliegues por pantalla. En cabeceras bajas y anchas se usa
+        // una referencia mínima para que los pliegues no queden demasiado apretados
+        const ref = Math.max(gh, gw * 0.55);
+        const s = 7.5 / ref;
+        const R2 = (ref * 0.2) ** 2;      // radio de influencia del cursor
         const kr = 2.47 * s;              // número de onda de las bandas en celdas
         const mx = mouse.x, my = mouse.y, e = energy;
         // Respiración lenta del flujo; con el cursor dentro los pliegues se marcan más

@@ -900,6 +900,291 @@ img {
 }
 
 
+/* Cabecera con textura holográfica (eventos) */
+.page-header--texture {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0c3e76 0%, #124e94 55%, #39577f 100%);
+    padding: 150px 0 80px;
+}
+
+/* Viñeta para asentar el texto sobre la textura */
+.page-header--texture::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 55% 70% at 50% 55%, rgba(8, 40, 82, 0.55) 0%, rgba(8, 40, 82, 0) 100%);
+    pointer-events: none;
+}
+
+.page-header--texture .page-header-content {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    text-shadow: 0 2px 18px rgba(6, 30, 64, 0.45);
+}
+
+.page-header--texture h1 {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    text-wrap: balance;
+}
+
+.eyebrow--light {
+    color: #b7d0ee;
+}
+
+
+/* =========================================
+   EVENTOS: LÍNEA TEMPORAL
+   ========================================= */
+
+.events-upcoming {
+    padding-bottom: 20px;
+}
+
+.events-upcoming .events-empty {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 32px;
+    margin: 0;
+    max-width: none;
+    padding: 24px 28px;
+    text-align: left;
+}
+
+.events-upcoming .events-empty-text {
+    flex: 1 1 320px;
+    min-width: 0;
+}
+
+.events-upcoming .events-empty-actions {
+    margin-top: 0;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+}
+
+.tl-group {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 0 36px;
+    align-items: start;
+}
+
+.tl-year {
+    position: sticky;
+    top: 110px;
+    color: #124e94;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+
+.tl-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding-left: 36px;
+    border-left: 2px solid #d5e0ee;
+}
+
+.tl-item {
+    position: relative;
+}
+
+/* Punto de la línea temporal, centrado sobre el borde de .tl-list */
+.tl-item::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: -44px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 3px solid #124e94;
+    box-shadow: 0 0 0 4px #fff;
+}
+
+.tl-card {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.tl-card:hover {
+    transform: translateY(-3px);
+    border-color: #b7d0ee;
+    box-shadow: 0 14px 30px rgba(18, 78, 148, 0.12);
+}
+
+.tl-card:focus-visible {
+    outline: 2px solid #124e94;
+    outline-offset: 3px;
+}
+
+.tl-media {
+    position: relative;
+    min-height: 190px;
+    background-color: #124e94;
+    overflow: hidden;
+}
+
+.tl-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.tl-card:hover .tl-media img {
+    transform: scale(1.04);
+}
+
+/* Charla sin foto: tarjeta con los azules y brillos de la textura de marca */
+.tl-media--video {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background:
+        radial-gradient(120% 60% at 20% 15%, rgba(183, 208, 238, 0.35), transparent 60%),
+        radial-gradient(90% 50% at 85% 90%, rgba(97, 137, 183, 0.5), transparent 65%),
+        linear-gradient(160deg, #255c91 0%, #124e94 50%, #0c3e76 100%);
+}
+
+.tl-play {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 24px rgba(6, 30, 64, 0.35);
+    transition: transform 0.3s ease;
+}
+
+.tl-play::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 54%;
+    transform: translate(-50%, -50%);
+    border-style: solid;
+    border-width: 10px 0 10px 16px;
+    border-color: transparent transparent transparent #124e94;
+}
+
+.tl-card:hover .tl-play {
+    transform: scale(1.08);
+}
+
+.tl-media-label {
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.tl-body {
+    display: flex;
+    flex-direction: column;
+    padding: 22px 26px 24px;
+}
+
+.tl-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin-bottom: 10px;
+    color: var(--secondary-color);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.tl-cat {
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.cat-talk    { background-color: #e3ecf8; color: #124e94; }
+.cat-award   { background-color: #fff4d6; color: #8a5a00; }
+.cat-visit   { background-color: #e0f1f5; color: #0b5e78; }
+.cat-contest { background-color: #ece9fb; color: #4b3fa0; }
+
+.tl-body h4 {
+    margin-bottom: 8px;
+    color: #124e94;
+    font-size: 1.2rem;
+    line-height: 1.3;
+    text-wrap: balance;
+}
+
+.tl-body p:not(.tl-meta) {
+    color: #4a5563;
+    font-size: 0.95rem;
+}
+
+.tl-body .read-more {
+    margin-top: auto;
+    padding-top: 14px;
+}
+
+@media (max-width: 768px) {
+    .page-header--texture {
+        padding: 120px 0 56px;
+    }
+
+    .tl-group {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .tl-year {
+        position: static;
+        font-size: 1.9rem;
+    }
+
+    .tl-list {
+        padding-left: 22px;
+    }
+
+    .tl-item::before {
+        left: -30px;
+        top: 22px;
+    }
+
+    .tl-card {
+        grid-template-columns: 1fr;
+    }
+
+    .tl-media {
+        min-height: 0;
+        aspect-ratio: 16 / 9;
+    }
+}
+
+
 /* =========================================
    TÍTULOS DE SECCIÓN
    ========================================= */
