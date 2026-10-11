@@ -34,6 +34,8 @@ const proyectosArticles = {
     },
 
     'fluidos': {
+
+        oculto: true, // sin enlace en la web: no aparece en «Sigue leyendo»
         title: 'Simulación de Fluidos Computacional',
         category: 'Proyecto Activo',
         author: 'Grupo de Simulación',
@@ -87,6 +89,8 @@ const proyectosArticles = {
     },
 
     'levitador': {
+
+        oculto: true, // sin enlace en la web: no aparece en «Sigue leyendo»
         title: 'Levitador Electrostático',
         category: 'Proyecto Finalizado',
         author: 'Grupo de Ingeniería Física',

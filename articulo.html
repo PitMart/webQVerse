@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Título del Artículo - QuantumVerse</title>
+    <title>Artículo - QVerse</title>
     <link rel="icon" type="image/webp" href="img/logos/logo_pequeno_azul.webp" />
     <meta
       name="description"
@@ -41,63 +41,54 @@
     </nav>
 
 
-    <!-- Main Content -->
-    <main
-      class="page-container"
-      style="padding-top: 100px; padding-bottom: 60px"
-    >
-      <div class="container">
-        <!-- Breadcrumbs -->
-        <div
-          class="breadcrumbs"
-          style="
-            margin-bottom: 30px;
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-          "
-        >
-          <a href="index.html">Home</a> &gt;
-          <a href="#" class="current-section" id="breadcrumb-section"
-            >Sección</a
-          >
-          &gt;
-          <span class="current-page" id="breadcrumb-title"
-            >Título del Artículo</span
-          >
-        </div>
+    <!-- Cabecera del artículo -->
+    <header class="page-header page-header--texture article-hero">
+      <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="container page-header-content article-hero-inner">
+        <nav class="breadcrumbs" aria-label="Ruta de navegación">
+          <a href="index.html">Home</a>
+          <span aria-hidden="true">/</span>
+          <a href="#" class="current-section" id="breadcrumb-section">Sección</a>
+          <span aria-hidden="true">/</span>
+          <span class="current-page" id="breadcrumb-title" aria-current="page">Artículo</span>
+        </nav>
+        <span class="eyebrow eyebrow--light" id="article-category">Artículo</span>
+        <h1 id="article-title">Cargando artículo…</h1>
+        <p class="article-meta">
+          <span id="article-author"></span>
+          <span class="article-meta-sep" aria-hidden="true">·</span>
+          <span id="article-date"></span>
+          <span class="article-meta-sep" id="article-reading-sep" aria-hidden="true" hidden>·</span>
+          <span id="article-reading" hidden></span>
+        </p>
+      </div>
+    </header>
+
+    <!-- Contenido -->
+    <main class="page-container">
+      <div class="container article-layout" id="article-layout">
+        <aside class="article-toc" id="article-toc" aria-label="Índice del artículo" hidden>
+          <p class="toc-title">En este artículo</p>
+          <ol class="toc-list" id="article-toc-list"></ol>
+        </aside>
 
         <article class="full-article">
-          <header class="article-header" style="margin-bottom: 40px">
-            <span
-              class="tag active"
-              style="margin-bottom: 10px"
-              id="article-category"
-              >Proyecto</span
-            >
-            <h1
-              style="font-size: 2.5rem; margin-bottom: 15px"
-              id="article-title"
-            >
-              Cámara de niebla
-            </h1>
-            <div
-              class="meta-info"
-              style="color: var(--secondary-color); font-size: 0.95rem"
-            >
-              <span id="article-author">Equipo APES UC3M</span> |
-              <span id="article-date">13 de Octubre, 2025</span>
-            </div>
-          </header>
-
-          <div
-            class="article-content"
-            style="max-width: 800px"
-            id="article-body"
-          >
-          </div>
-
+          <div class="article-content" id="article-body"></div>
+          <footer class="article-footer" id="article-footer" hidden>
+            <a href="#" class="back-link" id="article-back">&larr; Volver</a>
+          </footer>
         </article>
       </div>
+
+      <section class="section bg-light article-related" id="article-related" hidden>
+        <div class="container">
+          <div class="section-header">
+            <h2>Sigue leyendo</h2>
+            <p id="article-related-sub">Más artículos de esta sección</p>
+          </div>
+          <div class="featured-grid" id="article-related-grid"></div>
+        </div>
+      </section>
     </main>
 
     <!-- Footer -->
@@ -132,6 +123,6 @@
     <script src="articulos_java/alumni.js"></script>
     <script src="articulos_java/eventos.js"></script>
     <script src="script.js"></script>
-
+    <script src="hero-texture.js"></script>
   </body>
 </html>

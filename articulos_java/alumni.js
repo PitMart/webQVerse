@@ -1,6 +1,8 @@
 const alumniArticles = {
 
     'cern': {
+
+        oculto: true, // sin enlace en la web: no aparece en «Sigue leyendo»
         title: 'De la UC3M al CERN: Entrevista con Pablo R.',
         category: 'Experiencia Alumni',
         author: 'Redacción APES',
@@ -14,6 +16,8 @@ const alumniArticles = {
     },
 
     'startup': {
+
+        oculto: true, // sin enlace en la web: no aparece en «Sigue leyendo»
         title: 'Emprender en Fotónica: La historia de Lucía M.',
         category: 'Experiencia Alumni',
         author: 'Redacción APES',
@@ -75,6 +79,8 @@ const alumniArticles = {
     },
 
     'alba': {
+
+        oculto: true, // sin enlace en la web: no aparece en «Sigue leyendo»
         title: 'Visita al Sincrotrón ALBA',
         category: 'Visita Académica',
         author: 'Comité de Eventos',
