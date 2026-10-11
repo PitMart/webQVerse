@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────
 //  Fondo del hero: textura holográfica discreta (manual de marca)
-//  Seda líquida en azules de la paleta que fluye sola y que el cursor
-//  arrastra como un dedo en un líquido. Se calcula con "domain warping":
+//  Seda líquida en azules de la paleta que fluye sola; cerca del cursor
+//  las ondas se curvan y convergen en él. Se calcula con "domain warping":
 //  se deforman las coordenadas varias veces con senos y luego se pintan
 //  bandas suaves.
 // ─────────────────────────────────────────────
@@ -26,11 +26,9 @@
     const gctx = grid.getContext('2d');
     let gw = 0, gh = 0, img = null;
 
-    // Cursor: posición suavizada, energía (0 fuera, 1 dentro) y estela de movimiento
+    // Cursor: posición suavizada y energía (0 fuera, 1 dentro, con transición suave)
     const mouse = { x: 0, y: 0, tx: 0, ty: 0, inside: false };
     let energy = 0;
-    const trail = [];        // puntos {x, y, vx, vy, life} que arrastran la seda
-    const MAX_TRAIL = 14;
 
     function resize() {
         const rect = hero.getBoundingClientRect();
@@ -46,45 +44,29 @@
     function render(t) {
         const data = img.data;
         const s = 7.5 / gh;               // escala: varios pliegues por pantalla
-        const R2 = (gh * 0.13) ** 2;      // radio de la estela y del remolino
-        const MAX_OFF = gh * 0.14;        // límite del arrastre, para que no se rompa
-        const mx = mouse.x, my = mouse.y;
-        const swirl = 0.35 * energy * Math.sin(t * 1.3);   // remolino suave bajo el cursor
+        const R2 = (gh * 0.2) ** 2;       // radio de influencia del cursor
+        const kr = 2.47 * s;              // número de onda de las bandas en celdas
+        const mx = mouse.x, my = mouse.y, e = energy;
         // Respiración lenta del flujo; con el cursor dentro los pliegues se marcan más
-        const amp = (1 + 0.15 * Math.sin(t * 0.37)) * (1 + 0.3 * energy);
+        const amp = (1 + 0.15 * Math.sin(t * 0.37)) * (1 + 0.3 * e);
         const a1 = 0.85 * amp, a2 = 0.6 * amp, a3 = 0.4 * amp, a4 = 0.3 * amp, a5 = 0.2 * amp;
-        const n = trail.length;
         let i = 0;
         for (let y = 0; y < gh; y++) {
+            // Convergencia hacia el cursor: un desfase que crece con la distancia
+            // curva las crestas en anillos centrados en él. El peso cae suave
+            // (lorentziana), así las ondas lejanas solo se doblan un poco.
+            const dy = y - my, dy2 = dy * dy;
             for (let x = 0; x < gw; x++) {
                 // Deriva lenta de todo el campo: la seda "corre" en diagonal
                 let px = x * s + t * 0.12, py = y * s - t * 0.05;
 
-                // Estela: el cursor arrastra la seda en la dirección en que se mueve
-                let ox = 0, oy = 0;
-                for (let j = 0; j < n; j++) {
-                    const p = trail[j];
-                    const dx = x - p.x, dy = y - p.y, d2 = dx * dx + dy * dy;
-                    if (d2 < R2 * 5) {
-                        const f = p.life * Math.exp(-d2 / R2);
-                        ox -= p.vx * f * 2.2;
-                        oy -= p.vy * f * 2.2;
-                    }
-                }
-                // Remolino que gira despacio alrededor del cursor quieto
-                if (energy > 0.01) {
-                    const dx = x - mx, dy = y - my, d2 = dx * dx + dy * dy;
-                    if (d2 < R2 * 5) {
-                        const f = swirl * Math.exp(-d2 / R2);
-                        ox -= dy * f;
-                        oy += dx * f;
-                    }
-                }
-                if (ox !== 0 || oy !== 0) {
-                    const m = Math.sqrt(ox * ox + oy * oy);
-                    const k = m > MAX_OFF ? MAX_OFF / m : 1;
-                    px += ox * k * s;
-                    py += oy * k * s;
+                let ph = 0;
+                if (e > 0.005) {
+                    const dx = x - mx, d2 = dx * dx + dy2;
+                    const wgt = e / (1 + d2 / R2);
+                    const kd = kr * Math.sqrt(d2);
+                    // anillos + pulsos suaves que viajan hacia el cursor
+                    ph = wgt * (1.8 * kd + 0.7 * Math.sin(1.2 * kd + t * 6));
                 }
 
                 // Domain warping: cada capa a su propio ritmo, así el patrón nunca se repite igual
@@ -95,7 +77,7 @@
                 px += a5 * Math.sin(py * 3.1 + t * 0.53 + 5.1);
 
                 // Bandas de la seda con un ligero cambio de ritmo para que no sean paralelas
-                const v = 0.5 + 0.5 * Math.sin(px * 0.9 + py * 2.3 + 0.6 * Math.sin(px * 0.45 - t * 0.29));
+                const v = 0.5 + 0.5 * Math.sin(px * 0.9 + py * 2.3 + 0.6 * Math.sin(px * 0.45 - t * 0.29) + ph);
                 const v2 = v * v, v4 = v2 * v2;
                 const sheen = v2 * v;                                   // brillo satinado ancho
                 const edge = v4 * v4 * v4;                              // filo claro de la cresta
@@ -135,21 +117,9 @@
         energy += ((mouse.inside ? 1 : 0) - energy) * 0.03;
         clock += dt * SPEED * (1 + 0.9 * energy);
 
-        // Posición suavizada del cursor y estela según su velocidad
-        const px = mouse.x, py = mouse.y;
-        mouse.x += (mouse.tx - mouse.x) * 0.25;
-        mouse.y += (mouse.ty - mouse.y) * 0.25;
-        let vx = mouse.x - px, vy = mouse.y - py;
-        const sp = Math.sqrt(vx * vx + vy * vy);
-        if (mouse.inside && sp > 0.15) {
-            if (sp > 3) { vx *= 3 / sp; vy *= 3 / sp; }
-            trail.push({ x: mouse.x, y: mouse.y, vx, vy, life: 1 });
-            if (trail.length > MAX_TRAIL) trail.shift();
-        }
-        for (let j = trail.length - 1; j >= 0; j--) {
-            trail[j].life *= 0.95;                      // la estela se disipa en ~1 s
-            if (trail[j].life < 0.03) trail.splice(j, 1);
-        }
+        // Posición suavizada: los anillos siguen al cursor con algo de inercia
+        mouse.x += (mouse.tx - mouse.x) * 0.12;
+        mouse.y += (mouse.ty - mouse.y) * 0.12;
 
         render(clock);
     }
