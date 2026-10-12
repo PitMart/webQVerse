@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -25,15 +25,15 @@
         <a href="index.html" class="logo">
           <img src="img/logos/logo_grande_blanco.webp" alt="QuantumVerse" style="height: 50px; width: auto; display: block;">
         </a>
-        <button type="button" class="nav-toggle" aria-label="Abrir menú">
+        <button type="button" class="nav-toggle" aria-label="Abrir menú" aria-controls="nav-menu" aria-expanded="false">
           <span class="hamburger"></span>
         </button>
-        <ul class="nav-menu">
-          <li><a href="index.html" class="nav-link active">Home</a></li>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
           <li><a href="proyectos.html" class="nav-link">Proyectos</a></li>
           <li><a href="eventos.html" class="nav-link">Eventos</a></li>
           <li><a href="carreras.html" class="nav-link">Carreras</a></li>
-          <li><a href="equipo.html" class="nav-link">Equipo</a></li>
+          <li><a href="equipo.html" class="nav-link active" aria-current="page">Equipo</a></li>
           <li><a href="colaboraciones.html" class="nav-link">Colaboraciones</a></li>
           <li><a href="#contacto" class="nav-link button-primary">Contacto</a></li>
         </ul>
@@ -115,6 +115,15 @@
             </div>
 
           </div> 
+        </section>
+
+        <section id="unete" class="join-callout" aria-labelledby="join-title">
+          <div>
+            <span class="eyebrow">Forma parte de QuantumVerse</span>
+            <h2 id="join-title">¿Te interesa la ingeniería física y la tecnología cuántica?</h2>
+            <p>Escríbenos y te contamos cómo participar en la asociación.</p>
+          </div>
+          <a class="btn btn-primary" href="mailto:apes.asoc@uc3m.es?subject=Quiero%20unirme%20a%20QuantumVerse">Contactar con la asociación</a>
         </section>
 
       </div>

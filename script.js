@@ -16,40 +16,53 @@ document.addEventListener('DOMContentLoaded', function () {
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    function updateMobileMenu() {
-        if (window.innerWidth <= 768) {
-            if (navMenu.classList.contains('active')) {
-                navMenu.style.display = 'flex';
-            } else {
-                navMenu.style.display = 'none';
-            }
-        } else {
-            navMenu.style.display = '';
-        }
-    }
+    if (navToggle && navMenu) {
 
-    // Toggle Mobile Menu
-    if (navToggle) {
+        function closeMobileMenu() {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+            navToggle.setAttribute('aria-label', 'Abrir menú');
+        }
+
+        function updateMobileMenu() {
+            if (window.innerWidth <= 768) {
+                navMenu.style.display = navMenu.classList.contains('active') ? 'flex' : 'none';
+            } else {
+                navMenu.style.display = '';
+                closeMobileMenu();
+            }
+        }
+
         navToggle.addEventListener('click', function () {
-            navMenu.classList.toggle('active');
-            navToggle.classList.toggle('active');
+            const isOpen = !navMenu.classList.contains('active');
+            navMenu.classList.toggle('active', isOpen);
+            navToggle.classList.toggle('active', isOpen);
+            navToggle.setAttribute('aria-expanded', String(isOpen));
+            navToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
             updateMobileMenu();
         });
-    }
 
-    // Close menu when clicking a link
-    navLinks.forEach(link => {
-        link.addEventListener('click', function () {
-            if (navMenu && navMenu.classList.contains('active')) {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                if (navMenu.classList.contains('active')) {
+                    closeMobileMenu();
+                    updateMobileMenu();
+                }
+            });
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && navMenu.classList.contains('active')) {
+                closeMobileMenu();
                 updateMobileMenu();
+                navToggle.focus();
             }
         });
-    });
 
-    window.addEventListener('resize', updateMobileMenu);
-    updateMobileMenu();
+        window.addEventListener('resize', updateMobileMenu);
+        updateMobileMenu();
+    }
 
     // Cargar artículo dinámico
     const params = new URLSearchParams(window.location.search);
@@ -209,18 +222,15 @@ function buildRelated(id, section) {
 }
 
 // ─────────────────────────────────────────────
-//  Hero: el título colapsa al observarlo (scroll)
-//  y el indicador de scroll se oculta al bajar
+//  Hero: el indicador de scroll se oculta al bajar
 // ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function () {
-    const title = document.querySelector('.quantum-title');
     const indicator = document.querySelector('.scroll-indicator');
-    if (!title && !indicator) return;
+    if (!indicator) return;
 
     function onScroll() {
         const scrolled = window.scrollY > 40;
-        if (title) title.classList.toggle('collapsed', scrolled);
-        if (indicator) indicator.classList.toggle('hidden', scrolled);
+        indicator.classList.toggle('hidden', scrolled);
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });

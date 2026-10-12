@@ -13,7 +13,7 @@
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
       <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet"
       />
   </head>
@@ -25,11 +25,11 @@
         <a href="index.html" class="logo">
           <img src="img/logos/logo_grande_blanco.webp" alt="QuantumVerse" style="height: 50px; width: auto; display: block;">
         </a>
-        <button type="button" class="nav-toggle" aria-label="Abrir menú">
+        <button type="button" class="nav-toggle" aria-label="Abrir menú" aria-controls="nav-menu" aria-expanded="false">
           <span class="hamburger"></span>
         </button>
-        <ul class="nav-menu">
-          <li><a href="index.html" class="nav-link active">Home</a></li>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="index.html" class="nav-link active" aria-current="page">Home</a></li>
           <li><a href="proyectos.html" class="nav-link">Proyectos</a></li>
           <li><a href="eventos.html" class="nav-link">Eventos</a></li>
           <li><a href="carreras.html" class="nav-link">Carreras</a></li>
@@ -47,17 +47,19 @@
       <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
       <div class="hero-overlay"></div>
       <div class="container hero-content">
-        <h1 class="hero-title quantum-title fade-in">
-          <span class="qt-main">Quantum Verse</span>
-          <span class="qt-ghost qt-a" aria-hidden="true">Quantum Verse</span>
-          <span class="qt-ghost qt-b" aria-hidden="true">Quantum Verse</span>
-        </h1>
-        <p class="hero-subtitle fade-in delay-1">
+        <p class="hero-kicker fade-in">
           Asociación de Ingeniería Física - Universidad Carlos III de Madrid
         </p>
-        <div class="hero-buttons fade-in delay-2">
+        <h1 class="hero-title fade-in delay-1">
+          <span class="hero-title-main">Quantum</span>
+          <span class="hero-title-accent">Verse</span>
+        </h1>
+        <p class="hero-subtitle fade-in delay-2">
+          Exploramos la tecnología cuántica con formación, instrumentación y proyectos propios.
+        </p>
+        <div class="hero-buttons fade-in delay-3">
           <a href="proyectos.html" class="btn btn-primary">Ver Proyectos <span aria-hidden="true">&rarr;</span></a>
-          <a href="equipo.html" class="btn btn-outline">Únete a nosotros</a>
+          <a href="equipo.html#unete" class="btn btn-outline">Únete a nosotros</a>
         </div>
       </div>
       <a href="#quienes-somos" class="scroll-indicator" aria-label="Bajar a quiénes somos">
@@ -187,7 +189,7 @@
           <p class="events-empty-title">Pronto anunciaremos nuevas actividades</p>
           <p>Mientras tanto, puedes ver lo que hemos hecho o seguirnos en Instagram para enterarte antes que nadie.</p>
           <div class="events-empty-actions">
-            <a href="eventos.html" class="btn btn-outline-dark">Ver eventos pasados</a>
+            <a href="eventos.html#pasados" class="btn btn-outline-dark">Ver eventos pasados</a>
             <a href="https://www.instagram.com/qverse_uc3m/" class="read-more" target="_blank" rel="noopener">Seguir en Instagram &rarr;</a>
           </div>
         </div>
