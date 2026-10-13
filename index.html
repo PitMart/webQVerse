@@ -10,10 +10,11 @@
         content="QuantumVerse: Conectando la ingeniería física con proyectos reales y el mundo profesional. Asociación de la Universidad Carlos III de Madrid."
       />
       <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="qverse.css" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
       <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,500&display=swap"
         rel="stylesheet"
       />
   </head>
@@ -23,7 +24,8 @@
     <nav class="navbar">
       <div class="container nav-container">
         <a href="index.html" class="logo">
-          <img src="img/logos/logo_grande_blanco.webp" alt="QuantumVerse" style="height: 50px; width: auto; display: block;">
+          <img class="logo-on-dark" src="img/brand/logo-largo-blanco.webp" alt="QuantumVerse" width="700" height="181">
+          <img class="logo-on-light" src="img/brand/logo-largo-azul.webp" alt="" aria-hidden="true" width="700" height="181">
         </a>
         <button type="button" class="nav-toggle" aria-label="Abrir menú">
           <span class="hamburger"></span>
@@ -47,10 +49,10 @@
       <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
       <div class="hero-overlay"></div>
       <div class="container hero-content">
-        <h1 class="hero-title quantum-title fade-in">
-          <span class="qt-main">Quantum Verse</span>
-          <span class="qt-ghost qt-a" aria-hidden="true">Quantum Verse</span>
-          <span class="qt-ghost qt-b" aria-hidden="true">Quantum Verse</span>
+        <h1 class="hero-title quantum-title fade-in" aria-label="Quantum Verse">
+          <span class="qt-main" aria-hidden="true"><span class="t-sec">Quantum</span><span class="t-key">Verse</span></span>
+          <span class="qt-ghost qt-a" aria-hidden="true"><span class="t-sec">Quantum</span><span class="t-key">Verse</span></span>
+          <span class="qt-ghost qt-b" aria-hidden="true"><span class="t-sec">Quantum</span><span class="t-key">Verse</span></span>
         </h1>
         <p class="hero-subtitle fade-in delay-1">
           Asociación de Ingeniería Física - Universidad Carlos III de Madrid
@@ -226,7 +228,7 @@
       <!-- (Same footer content) -->
       <div class="container footer-content">
         <div class="footer-col">
-          <img src="img/logos/logo_pequeno_negro.webp" alt="QuantumVerse" style="height: 80px; margin-bottom: 15px;">
+          <img src="img/brand/logo-principal-blanco.webp" alt="QuantumVerse" width="633" height="301">
           <p>
           </p>
         </div>
@@ -249,5 +251,6 @@
 
     <script src="script.js"></script>
     <script src="hero-texture.js"></script>
+  <script src="qverse.js"></script>
   </body>
 </html>
