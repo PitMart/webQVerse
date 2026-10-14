@@ -909,31 +909,31 @@ p {
     color: var(--qv-blue);
 }
 
-.tl-list {
-    position: relative;
-    border-left-color: var(--qv-line);
+.tl-list::before {
+    background-color: var(--qv-line);
 }
 
+/* Relleno del raíl: avanza con el scroll (--lp) y usa el mismo azul que los puntos */
 .tl-list::after {
     content: '';
     position: absolute;
-    left: -2px;
+    left: var(--tl-rail);
     top: 0;
     width: 2px;
     height: calc(var(--lp, 1) * 100%);
-    background: linear-gradient(var(--qv-blue), var(--qv-sky));
+    translate: -50% 0;
+    background-color: var(--qv-blue);
     border-radius: 2px;
 }
 
 .tl-item::before {
-    transition: background-color 0.4s ease, transform 0.4s var(--ease);
-}
-
-.tl-item::before {
+    border-color: var(--qv-blue);
     background-color: var(--qv-blue);
+    transition: background-color 0.35s ease;
 }
 
-.qv-js .tl-item:not(.is-in)::before {
+/* Con la animación activa, los puntos son huecos hasta que la línea los atraviesa */
+.tl-list.is-live .tl-item:not(.is-passed)::before {
     background-color: #fff;
 }
 
