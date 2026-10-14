@@ -1718,9 +1718,40 @@ img {
 
 .collab-logos {
     display: grid;
-    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: center;
     gap: 24px;
+}
+
+/* Los enlaces de cada logo ocupan su celda y centran la imagen */
+.collab-logos > a,
+.collab-logo-wrap > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+}
+
+/* Móvil: los logos se apilan en una columna, más bajos */
+@media (max-width: 640px) {
+    .collab-logos-wrapper {
+        padding: 20px 16px;
+    }
+
+    .collab-logos {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .collab-logo {
+        max-width: 240px;
+        height: 110px;
+    }
+
+    .collab-logo-wrap {
+        min-height: 0;
+        padding: 0;
+    }
 }
 
 .collab-logo-wrap {
