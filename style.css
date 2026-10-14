@@ -987,29 +987,49 @@ img {
     letter-spacing: -0.02em;
 }
 
+/* El raíl, su relleno y los puntos se colocan con la misma referencia
+   (--tl-rail) y se centran con translate, así coinciden en cualquier pantalla */
 .tl-list {
+    --tl-pad: 36px;              /* separación entre el raíl y las tarjetas */
+    --tl-rail: 0px;              /* posición del centro del raíl */
+    --tl-dot: 14px;
+    position: relative;
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 28px;
-    padding-left: 36px;
-    border-left: 2px solid #d5e0ee;
+    padding-left: var(--tl-pad);
+}
+
+/* Raíl gris de fondo */
+.tl-list::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--tl-rail);
+    width: 2px;
+    translate: -50% 0;
+    border-radius: 2px;
+    background-color: #d5e0ee;
 }
 
 .tl-item {
     position: relative;
 }
 
-/* Punto de la línea temporal, centrado sobre el borde de .tl-list */
+/* Punto de la línea temporal, centrado sobre el raíl */
 .tl-item::before {
     content: '';
     position: absolute;
+    z-index: 1;
     top: 30px;
-    left: -44px;
-    width: 14px;
-    height: 14px;
+    left: calc(var(--tl-rail) - var(--tl-pad));
+    width: var(--tl-dot);
+    height: var(--tl-dot);
+    translate: -50% 0;
     border-radius: 50%;
-    background-color: #fff;
+    background-color: #124e94;
     border: 3px solid #124e94;
     box-shadow: 0 0 0 4px #fff;
 }
@@ -1166,11 +1186,10 @@ img {
     }
 
     .tl-list {
-        padding-left: 22px;
+        --tl-pad: 22px;
     }
 
     .tl-item::before {
-        left: -30px;
         top: 22px;
     }
 
@@ -1718,9 +1737,40 @@ img {
 
 .collab-logos {
     display: grid;
-    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: center;
     gap: 24px;
+}
+
+/* Los enlaces de cada logo ocupan su celda y centran la imagen */
+.collab-logos > a,
+.collab-logo-wrap > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+}
+
+/* Móvil: los logos se apilan en una columna, más bajos */
+@media (max-width: 640px) {
+    .collab-logos-wrapper {
+        padding: 20px 16px;
+    }
+
+    .collab-logos {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .collab-logo {
+        max-width: 240px;
+        height: 110px;
+    }
+
+    .collab-logo-wrap {
+        min-height: 0;
+        padding: 0;
+    }
 }
 
 .collab-logo-wrap {

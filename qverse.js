@@ -123,8 +123,17 @@
 
         timelines.forEach(function (list) {
             var r = list.getBoundingClientRect();
-            var p = (vh * 0.7 - r.top) / r.height;
-            list.style.setProperty('--lp', clamp(p, 0, 1).toFixed(4));
+            var p = clamp((vh * 0.7 - r.top) / r.height, 0, 1);
+            list.style.setProperty('--lp', p.toFixed(4));
+            list.classList.add('is-live');
+
+            // Un punto se rellena cuando el final de la línea pasa por su centro
+            var fillEnd = r.top + p * r.height;
+            list.querySelectorAll('.tl-item').forEach(function (item) {
+                var dot = window.getComputedStyle(item, '::before');
+                var centre = item.getBoundingClientRect().top + parseFloat(dot.top) + parseFloat(dot.height) / 2;
+                item.classList.toggle('is-passed', fillEnd >= centre);
+            });
         });
 
         wordBlocks.forEach(function (block) {

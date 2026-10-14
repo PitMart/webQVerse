@@ -442,8 +442,7 @@ p {
     background: radial-gradient(120% 90% at 20% 10%, #1a62b4 0%, var(--qv-blue) 45%, var(--qv-deep) 100%);
 }
 
-.hero-section::before,
-.hero-section::after {
+.hero-section::before {
     content: '';
     position: absolute;
     z-index: 1;
@@ -461,16 +460,6 @@ p {
     background-image: url('img/brand/contornos-oscuro.webp');
     opacity: 0.5;
     transform: translate3d(calc(var(--hp, 0) * -60px), calc(var(--hp, 0) * -110px), 0);
-}
-
-.hero-section::after {
-    right: -7%;
-    top: 4%;
-    width: min(50vw, 720px);
-    aspect-ratio: 1100 / 1152;
-    background-image: url('img/brand/ondas-oscuro.webp');
-    opacity: 0.55;
-    transform: translate3d(calc(var(--hp, 0) * 70px), calc(var(--hp, 0) * -150px), 0) rotate(calc(var(--hp, 0) * 8deg));
 }
 
 .hero-content {
@@ -790,11 +779,13 @@ p {
     z-index: 2;
 }
 
+/* Las líneas de esta imagen terminan en seco por su borde izquierdo: se voltea
+   en horizontal para que ese borde quede pegado (y escondido) en el derecho */
 .page-header::before,
 .page-header--texture::before {
     content: '';
     position: absolute;
-    right: -6%;
+    right: -2%;
     bottom: -30%;
     width: min(72vw, 980px);
     aspect-ratio: 1500 / 904;
@@ -802,7 +793,7 @@ p {
     pointer-events: none;
     background: url('img/brand/contornos-oscuro.webp') no-repeat center / contain;
     opacity: 0.5;
-    transform: translate3d(calc(var(--sp, 0) * -50px), calc(var(--sp, 0) * 70px), 0);
+    transform: translate3d(calc(var(--sp, 0) * -50px), calc(var(--sp, 0) * 70px), 0) scaleX(-1);
     will-change: transform;
 }
 
@@ -909,31 +900,31 @@ p {
     color: var(--qv-blue);
 }
 
-.tl-list {
-    position: relative;
-    border-left-color: var(--qv-line);
+.tl-list::before {
+    background-color: var(--qv-line);
 }
 
+/* Relleno del raíl: avanza con el scroll (--lp) y usa el mismo azul que los puntos */
 .tl-list::after {
     content: '';
     position: absolute;
-    left: -2px;
+    left: var(--tl-rail);
     top: 0;
     width: 2px;
     height: calc(var(--lp, 1) * 100%);
-    background: linear-gradient(var(--qv-blue), var(--qv-sky));
+    translate: -50% 0;
+    background-color: var(--qv-blue);
     border-radius: 2px;
 }
 
 .tl-item::before {
-    transition: background-color 0.4s ease, transform 0.4s var(--ease);
-}
-
-.tl-item::before {
+    border-color: var(--qv-blue);
     background-color: var(--qv-blue);
+    transition: background-color 0.35s ease;
 }
 
-.qv-js .tl-item:not(.is-in)::before {
+/* Con la animación activa, los puntos son huecos hasta que la línea los atraviesa */
+.tl-list.is-live .tl-item:not(.is-passed)::before {
     background-color: #fff;
 }
 
@@ -1343,12 +1334,6 @@ footer .footer-bottom {
         left: -30%;
     }
 
-    .hero-section::after {
-        width: 90vw;
-        right: -30%;
-        opacity: 0.4;
-    }
-
     .hero-buttons {
         align-items: center;
     }
@@ -1386,7 +1371,6 @@ footer .footer-bottom {
 
     .hero-content,
     .hero-section::before,
-    .hero-section::after,
     .about-section::after,
     .bg-light::after,
     .page-header::before,
