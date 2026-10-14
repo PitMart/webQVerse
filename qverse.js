@@ -79,7 +79,7 @@
 
     // ── 3. Scroll: variables CSS para progreso y parallax ──
     var hero = $('.hero-section');
-    var parallax = $$('.hero-section, .page-header, .about-section, .bg-light, footer');
+    var parallax = $$('.hero-section, .page-header, .bg-light, footer');
     var visible = new Set();
     var ticking = false;
 
