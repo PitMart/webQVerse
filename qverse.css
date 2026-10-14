@@ -790,11 +790,13 @@ p {
     z-index: 2;
 }
 
+/* Las líneas de esta imagen terminan en seco por su borde izquierdo: se voltea
+   en horizontal para que ese borde quede pegado (y escondido) en el derecho */
 .page-header::before,
 .page-header--texture::before {
     content: '';
     position: absolute;
-    right: -6%;
+    right: -2%;
     bottom: -30%;
     width: min(72vw, 980px);
     aspect-ratio: 1500 / 904;
@@ -802,7 +804,7 @@ p {
     pointer-events: none;
     background: url('img/brand/contornos-oscuro.webp') no-repeat center / contain;
     opacity: 0.5;
-    transform: translate3d(calc(var(--sp, 0) * -50px), calc(var(--sp, 0) * 70px), 0);
+    transform: translate3d(calc(var(--sp, 0) * -50px), calc(var(--sp, 0) * 70px), 0) scaleX(-1);
     will-change: transform;
 }
 
