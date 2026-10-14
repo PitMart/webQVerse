@@ -207,6 +207,7 @@ p {
 
 /* ---- Decoración de marca: figuras de líneas con parallax ------------- */
 
+.about-section::after,
 .bg-light::after {
     content: '';
     position: absolute;
@@ -216,6 +217,15 @@ p {
     background-size: contain;
     opacity: 0.4;
     will-change: transform;
+}
+
+.about-section::after {
+    right: -12%;
+    top: -14%;
+    width: min(42vw, 560px);
+    aspect-ratio: 1100 / 1152;
+    background-image: url('img/brand/ondas-claro.webp');
+    transform: translate3d(0, calc(var(--sp, 0) * -70px), 0) rotate(calc(var(--sp, 0) * 4deg));
 }
 
 .bg-light::after {
@@ -1379,6 +1389,7 @@ footer .footer-bottom {
     .hero-content,
     .hero-section::before,
     .hero-section::after,
+    .about-section::after,
     .bg-light::after,
     .page-header::before,
     footer::before {
