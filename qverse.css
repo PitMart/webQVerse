@@ -442,8 +442,7 @@ p {
     background: radial-gradient(120% 90% at 20% 10%, #1a62b4 0%, var(--qv-blue) 45%, var(--qv-deep) 100%);
 }
 
-.hero-section::before,
-.hero-section::after {
+.hero-section::before {
     content: '';
     position: absolute;
     z-index: 1;
@@ -461,16 +460,6 @@ p {
     background-image: url('img/brand/contornos-oscuro.webp');
     opacity: 0.5;
     transform: translate3d(calc(var(--hp, 0) * -60px), calc(var(--hp, 0) * -110px), 0);
-}
-
-.hero-section::after {
-    right: -7%;
-    top: 4%;
-    width: min(50vw, 720px);
-    aspect-ratio: 1100 / 1152;
-    background-image: url('img/brand/ondas-oscuro.webp');
-    opacity: 0.55;
-    transform: translate3d(calc(var(--hp, 0) * 70px), calc(var(--hp, 0) * -150px), 0) rotate(calc(var(--hp, 0) * 8deg));
 }
 
 .hero-content {
@@ -1345,12 +1334,6 @@ footer .footer-bottom {
         left: -30%;
     }
 
-    .hero-section::after {
-        width: 90vw;
-        right: -30%;
-        opacity: 0.4;
-    }
-
     .hero-buttons {
         align-items: center;
     }
@@ -1388,7 +1371,6 @@ footer .footer-bottom {
 
     .hero-content,
     .hero-section::before,
-    .hero-section::after,
     .about-section::after,
     .bg-light::after,
     .page-header::before,
