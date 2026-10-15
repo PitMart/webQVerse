@@ -96,6 +96,7 @@
     }
 
     var timelines = $$('.tl-list');
+    var dotsDirty = true;
     var wordBlocks = [];
 
     function update() {
@@ -127,14 +128,22 @@
             list.style.setProperty('--lp', p.toFixed(4));
             list.classList.add('is-live');
 
-            // Un punto se rellena cuando el final de la línea pasa por su centro
+            // Un punto se rellena cuando el final de la línea pasa por su centro.
+            // La posición del punto dentro de su evento solo cambia al redimensionar:
+            // se guarda para no pedir estilos calculados en cada fotograma.
             var fillEnd = r.top + p * r.height;
-            list.querySelectorAll('.tl-item').forEach(function (item) {
-                var dot = window.getComputedStyle(item, '::before');
-                var centre = item.getBoundingClientRect().top + parseFloat(dot.top) + parseFloat(dot.height) / 2;
-                item.classList.toggle('is-passed', fillEnd >= centre);
+            if (!list._dots || dotsDirty) {
+                list._dots = $$('.tl-item', list).map(function (item) {
+                    var dot = window.getComputedStyle(item, '::before');
+                    return { el: item, offset: parseFloat(dot.top) + parseFloat(dot.height) / 2 };
+                });
+            }
+            list._dots.forEach(function (d) {
+                d.el.classList.toggle('is-passed', fillEnd >= d.el.getBoundingClientRect().top + d.offset);
             });
         });
+
+        dotsDirty = false;
 
         wordBlocks.forEach(function (block) {
             var r = block.el.getBoundingClientRect();
@@ -153,7 +162,7 @@
     }
 
     window.addEventListener('scroll', requestTick, { passive: true });
-    window.addEventListener('resize', requestTick);
+    window.addEventListener('resize', function () { dotsDirty = true; requestTick(); });
 
     // ── 4. Aparición progresiva ──
     var REVEAL_SEL = [
@@ -266,7 +275,13 @@
             // Sobre hero y pie (fondos oscuros) los puntos son claros
             nav.classList.toggle('on-dark', items[current].id === 'hero' || items[current].id === 'contacto');
         }
-        window.addEventListener('scroll', spy, { passive: true });
+        // Una vez por fotograma como mucho, aunque lleguen varios eventos de scroll
+        var spyQueued = false;
+        window.addEventListener('scroll', function () {
+            if (spyQueued) return;
+            spyQueued = true;
+            window.requestAnimationFrame(function () { spyQueued = false; spy(); });
+        }, { passive: true });
         spy();
     }
 
