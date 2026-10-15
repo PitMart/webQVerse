@@ -579,6 +579,48 @@ img {
     font-variant-numeric: tabular-nums;
 }
 
+/* Toda la tarjeta es clicable: el enlace de la etiqueta extiende su zona
+   de clic a la tarjeta completa */
+.stat {
+    position: relative;
+}
+
+.stat-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: inherit;
+}
+
+.stat-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+}
+
+.stat-link:focus-visible {
+    outline: none;
+}
+
+.stat:focus-within {
+    outline: 2px solid #124e94;
+    outline-offset: 3px;
+}
+
+.stat-arrow {
+    font-style: normal;
+    opacity: 0.45;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.stat:hover .stat-arrow,
+.stat:focus-within .stat-arrow {
+    opacity: 1;
+    transform: translateX(4px);
+}
+
 .stat dt {
     color: var(--secondary-color);
     font-size: 0.85rem;
