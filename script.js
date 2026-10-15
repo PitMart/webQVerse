@@ -121,7 +121,19 @@ function renderArticle(id, article) {
     const bodyEl = $('article-body');
     bodyEl.innerHTML = (article.lead ? '<p class="article-lead">' + article.lead + '</p>' : '') + article.body;
     if (id === 'niebla') bodyEl.classList.add('article-niebla');
-    if (window.instgrm) window.instgrm.Embeds.process();
+
+    // El script de Instagram solo se carga si el artículo tiene alguna publicación incrustada
+    if (bodyEl.querySelector('.instagram-media')) {
+        if (window.instgrm) {
+            window.instgrm.Embeds.process();
+        } else if (!document.getElementById('instagram-embed')) {
+            const ig = document.createElement('script');
+            ig.id = 'instagram-embed';
+            ig.async = true;
+            ig.src = 'https://www.instagram.com/embed.js';
+            document.body.appendChild(ig);
+        }
+    }
 
     // Tiempo de lectura (unas 200 palabras por minuto)
     const words = bodyEl.textContent.trim().split(/\s+/).length;
