@@ -147,7 +147,9 @@
 
         wordBlocks.forEach(function (block) {
             var r = block.el.getBoundingClientRect();
-            var p = clamp((vh * 0.88 - r.top) / (vh * 0.5 + r.height * 0.4), 0, 1);
+            // Empieza a iluminarse en cuanto el párrafo asoma por abajo y se lee
+            // entero cuando llega más o menos a la mitad de la pantalla
+            var p = clamp((vh * 0.95 - r.top) / (vh * 0.3 + r.height * 0.35), 0, 1);
             var lit = Math.round(p * block.words.length);
             if (lit === block.lit) return;
             block.words.forEach(function (w, i) { w.classList.toggle('is-lit', i < lit); });
